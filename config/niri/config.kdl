@@ -219,6 +219,21 @@ layout {
         // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
     }
 
+    // Tabbed columns (Super+W): a thin segmented strip across the top, one segment per tab,
+    // white for the shown tab like the focused border. Inside the column, so it never covers neighbours.
+    tab-indicator {
+        hide-when-single-tab
+        place-within-column
+        position "top"
+        width 3
+        gap 0
+        length total-proportion=1.0
+        gaps-between-tabs 2
+        active-color "#ffffff"
+        inactive-color "#4a4a4a"
+        urgent-color "#9b0000"
+    }
+
     // You can enable drop shadows for windows.
     shadow {
         // Uncomment the next line to enable shadows.
@@ -459,6 +474,9 @@ binds {
 
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
+    // pull the next column's window into this column (a new tab) / push the focused one back out
+    Mod+Comma  { consume-window-into-column; }
+    Mod+Period { expel-window-from-column; }
     Mod+R { switch-preset-column-width; }
     Mod+Shift+R { switch-preset-column-width-back; }
     Mod+C { center-column; }
