@@ -338,6 +338,13 @@ window-rule {
     open-floating true
 }
 
+// Floating windows (dialogs, picture-in-picture, Super+V) get a soft shadow so they read as "on top";
+// tiled windows stay flat and edge-to-edge. Values come from layout { shadow }.
+window-rule {
+    match is-floating=true
+    shadow { on; }
+}
+
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
 /-window-rule {
