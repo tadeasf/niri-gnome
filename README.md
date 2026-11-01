@@ -36,7 +36,7 @@ between the two at the login screen.
 | rofi | `config/niri/rofi/arcmenu.rasi` | app launcher that looks like ArcMenu's "Runner" layout |
 | niri-panels | `config/niri/panels/niri-panels.py` | quick settings menu and notifications/weather menu |
 | mako | `config/mako/config` | notification banners styled like GNOME's |
-| picom override | `config/autostart/picom.desktop` | stops an X11 compositor from autostarting inside niri |
+| autostart overrides | `config/autostart/picom.desktop`, `nm-applet.desktop` | keep picom and the redundant nm-applet tray icon out of niri (GNOME unaffected) |
 
 Everything in `config/` mirrors `~/.config/`. `install.sh` symlinks each file into place.
 
@@ -217,6 +217,9 @@ this repo, so whatever you change (in either place) is already a change in git.
 - **Previews stay as icons:** check that `gst-inspect-1.0 pipewiresrc` and `gst-inspect-1.0 glupload` work
   (`pipewire-gstreamer`, `gstreamer1-plugins-base`).
 - **Empty clock in waybar:** you're on the stock clock module with `%-` specifiers. Keep `custom/clock`.
+- **Joining a new Wi-Fi network:** nm-applet is hidden in niri (the bar shows the network), and it's also
+  what asks for Wi-Fi passwords. Use `nmcli device wifi connect <SSID> --ask` or `nm-connection-editor`,
+  or delete `~/.config/autostart/nm-applet.desktop` to bring the tray icon back.
 - **picom errors at login:** something autostarts picom (an X11 compositor). The override in
   `config/autostart/picom.desktop` hides it in niri only.
 
