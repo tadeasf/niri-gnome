@@ -10,11 +10,13 @@ between the two at the login screen.
 
 ![Desktop](screenshots/desktop.png)
 
+![Bar stats](screenshots/bar-stats.png)
+
 | Alt+Tab: one icon per app | Down: live previews of that app's windows |
 |---|---|
 | ![App switcher](screenshots/switcher.png) | ![Window previews](screenshots/switcher-previews.png) |
 
-| Quick settings (click the status icons) | Notifications + weather (click the clock) |
+| Quick settings (click ⏻) | Notifications + weather (click the clock) |
 |---|---|
 | ![Quick settings](screenshots/quick-settings.png) | ![Notifications and weather](screenshots/notifications-weather.png) |
 
@@ -30,7 +32,7 @@ between the two at the login screen.
 |---|---|---|
 | niri | `config/niri/config.kdl` | the compositor: layout, borders, input, binds, autostart |
 | niri-switcher | `config/niri/switcher/niri-switcher.py` | GNOME-style Alt+Tab with window previews |
-| waybar | `config/niri/waybar/config.jsonc`, `style.css` | the GNOME-style top bar |
+| waybar | `config/niri/waybar/config.jsonc`, `style.css`, `stats.py` | the GNOME-style top bar with live network/CPU/RAM/GPU stats |
 | rofi | `config/niri/rofi/arcmenu.rasi` | app launcher that looks like ArcMenu's "Runner" layout |
 | niri-panels | `config/niri/panels/niri-panels.py` | quick settings menu and notifications/weather menu |
 | mako | `config/mako/config` | notification banners styled like GNOME's |
@@ -98,7 +100,7 @@ keeps the popup open without holding Alt, which is how the screenshots were take
 
 ### waybar
 
-Workspace dots on the left, the clock in the middle, tray, network, volume and a power button on the right.
+Workspace dots on the left, the clock in the middle, and on the right the tray, live stats and one power button.
 It's a separate config under `~/.config/niri/waybar/`, so an existing `~/.config/waybar` (for another
 desktop) isn't touched.
 
@@ -106,8 +108,13 @@ desktop) isn't touched.
   rejects `%-d`/`%-I` and renders nothing.
 - The workspace dots are buttons with their label hidden (`font-size: 0`). Otherwise the label's font height
   stretches the bar.
-- Clicking the clock opens the notifications/weather menu. Clicking the network, volume or power icon opens
-  quick settings (see below). Right-click the volume icon to mute, scroll on it to change the volume.
+- Clicking the clock opens the notifications/weather menu. The power button opens quick settings (see below),
+  which also has the volume slider.
+- The stats are one small script, `stats.py`, that waybar keeps running. Every 2 seconds it prints the
+  connection name (Wi-Fi network or "Wired"), download/upload speed of the default-route interface, CPU,
+  RAM and GPU usage (AMD via `gpu_busy_percent` in sysfs, NVIDIA via `nvidia-smi`, hidden if neither).
+  Labels are dimmed and numbers are padded with figure spaces and drawn with tabular digits, so the bar
+  doesn't jiggle as values change. Click it to open Resources (or GNOME System Monitor); hover for details.
 
 ### Quick settings and notifications menus (niri-panels)
 

@@ -27,12 +27,14 @@ tooltip label { color: #ffffff; }
 #workspaces button:hover { background: #a0a0a0; }
 #workspaces button.active { min-width: 32px; background: #ffffff; }
 
-#custom-clock, #tray, #network, #pulseaudio, #custom-power {
+#custom-clock, #tray, #custom-stats, #custom-power {
     padding: 0 9px;
     margin: 4px 1px;
     border-radius: 99px;
     color: #ffffff;
 }
-#network, #pulseaudio, #custom-power { font-size: 12pt; }
+#custom-power { font-size: 12pt; }
+/* tabular digits + figure-space padding in stats.py keep the numbers from shifting the bar */
+#custom-stats { font-feature-settings: "tnum"; padding: 0 14px; }
 #custom-power { margin-right: 8px; }
-#custom-clock:hover, #network:hover, #pulseaudio:hover, #custom-power:hover { background: #2a2a2a; }
+#custom-clock:hover, #custom-stats:hover, #custom-power:hover { background: #2a2a2a; }
