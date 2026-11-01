@@ -55,6 +55,8 @@ Everything in `config/` mirrors `~/.config/`. `install.sh` symlinks each file in
 - **Mouse:** copied from GNOME (`accel-profile "flat"`, the same `accel-speed`, natural scrolling), so
   the pointer moves the same in both sessions.
 - **Workspaces:** four fixed, named workspaces, like a fixed-workspace GNOME setup.
+- **Volume/brightness OSD:** the media keys go through `swayosd-client`, which shows a GNOME-style pill
+  (`config/niri/swayosd/style.css`) and caps volume at 100%. On Fedora `swayosd` comes from the Terra repo.
 - **Polkit:** under GNOME, GNOME Shell shows password prompts. niri doesn't, so the config starts
   `mate-polkit`'s agent. Without one, `pkexec` and "enter your password" dialogs never appear.
 

@@ -1,0 +1,29 @@
+/* GNOME-style OSD pill: dark grey like the mako banners, white bar, grey trough */
+window#osd {
+  border-radius: 999px;
+  border: 1px solid #2e2e2e;
+  background: rgba(30, 30, 30, 0.96);
+}
+window#osd #container { margin: 14px 18px; }
+window#osd image, window#osd label { color: #ffffff; }
+window#osd progressbar:disabled, window#osd image:disabled { opacity: 0.5; }
+window#osd progressbar, window#osd segmentedprogress {
+  min-height: 6px;
+  border-radius: 999px;
+  background: transparent;
+  border: none;
+}
+window#osd trough, window#osd segment {
+  min-height: inherit;
+  border-radius: inherit;
+  border: none;
+  background: #4a4a4a;
+}
+window#osd progress, window#osd segment.active {
+  min-height: inherit;
+  border-radius: inherit;
+  border: none;
+  background: #ffffff;
+}
+window#osd segment { margin-left: 8px; }
+window#osd segment:first-child { margin-left: 0; }
