@@ -38,3 +38,11 @@ tooltip label { color: #ffffff; }
 #custom-stats { font-feature-settings: "tnum"; padding: 0 14px; }
 #custom-power { margin-right: 8px; }
 #custom-clock:hover, #custom-stats:hover, #custom-power:hover { background: #2a2a2a; }
+
+#language {
+    padding: 0 9px;
+    margin: 4px 1px;
+    border-radius: 99px;
+    color: #ffffff;
+}
+#language:hover { background: #2a2a2a; }

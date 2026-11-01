@@ -6,7 +6,7 @@
     "spacing": 0,
     "modules-left": ["niri/workspaces"],
     "modules-center": ["custom/clock"],
-    "modules-right": ["tray", "custom/stats", "custom/power"],
+    "modules-right": ["tray", "niri/language", "custom/stats", "custom/power"],
 
     "niri/workspaces": { "format": "" },
     // waybar's chrono formatter rejects %-d/%-I, so GNOME's unpadded 12h clock comes from date
@@ -17,6 +17,11 @@
         "on-click": "gdbus call --session --dest io.github.tadeasf.NiriPanels --object-path /io/github/tadeasf/NiriPanels --method org.gtk.Actions.Activate calendar '[]' '{}'"
     },
     "tray": { "icon-size": 16, "spacing": 10 },
+    // keyboard layout (us/cz), the one Super+Space switches; click cycles it too
+    "niri/language": {
+        "format": "{short}",
+        "on-click": "niri msg action switch-layout next"
+    },
     // network name + speed, CPU, RAM, GPU; one long-running script, refreshed every 2 s
     "custom/stats": {
         "exec": "~/.config/niri/waybar/stats.py",
