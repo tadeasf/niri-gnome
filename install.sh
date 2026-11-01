@@ -17,13 +17,13 @@ if [[ ${1:-} == --deps ]]; then
       python3-gobject gtk4-layer-shell glib2 \
       gstreamer1-plugins-base pipewire-gstreamer \
       mozilla-fira-sans-fonts cascadia-code-nf-fonts \
-      nm-connection-editor pavucontrol wireplumber playerctl brightnessctl swayosd
+      nm-connection-editor pavucontrol wireplumber playerctl brightnessctl swayosd udiskie
   elif command -v pacman >/dev/null; then
     sudo pacman -S --needed --noconfirm niri waybar rofi mako swaybg swaylock mate-polkit \
       python-gobject gtk4-layer-shell glib2 \
       gst-plugins-base gst-plugin-pipewire \
       ttf-fira-sans ttf-cascadia-code-nerd \
-      nm-connection-editor pavucontrol wireplumber playerctl brightnessctl swayosd
+      nm-connection-editor pavucontrol wireplumber playerctl brightnessctl swayosd udiskie
   elif command -v zypper >/dev/null; then
     sudo zypper install -y niri waybar rofi mako swaybg swaylock mate-polkit \
       python3-gobject typelib-1_0-Gtk-4_0 typelib-1_0-Gtk4LayerShell-1_0 glib2-tools \

@@ -57,6 +57,7 @@ Everything in `config/` mirrors `~/.config/`. `install.sh` symlinks each file in
 - **Workspaces:** four fixed, named workspaces, like a fixed-workspace GNOME setup.
 - **Volume/brightness OSD:** the media keys go through `swayosd-client`, which shows a GNOME-style pill
   (`config/niri/swayosd/style.css`) and caps volume at 100%. On Fedora `swayosd` comes from the Terra repo.
+- **USB drives** mount by themselves under `/run/media/$USER` (`udiskie`), as they do in GNOME.
 - **Polkit:** under GNOME, GNOME Shell shows password prompts. niri doesn't, so the config starts
   `mate-polkit`'s agent. Without one, `pkexec` and "enter your password" dialogs never appear.
 
