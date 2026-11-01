@@ -162,13 +162,14 @@ Dark grey rounded banners at the top centre with Fira Sans, matching GNOME's. ma
 
 ## Install
 
-Tested on Fedora 44 with niri 26.04. On other distros, install the same things under your distro's names
-(the list is at the top of `install.sh`).
+Tested on Fedora 44 with niri 26.04. `--deps` also knows the package names for Arch (pacman), openSUSE
+(zypper) and Debian/Ubuntu (apt). Debian/Ubuntu don't package niri, Fira Sans or a Nerd Font, so install those
+yourself; on any other distro, install the same things under your distro's names (the lists are in `install.sh`).
 
 ```bash
 git clone https://github.com/tadeasf/niri-gnome.git ~/niri-gnome
 cd ~/niri-gnome
-./install.sh --deps   # installs packages with dnf, then links the configs
+./install.sh --deps   # installs packages (dnf/pacman/zypper/apt), then links the configs
 ```
 
 Without `--deps`, it only links the configs. Any file it replaces is kept next to it as
@@ -191,7 +192,6 @@ These are personal choices in `config/niri/config.kdl`. Edit them to taste:
 - terminals on Super+Return (ghostty), Super+Ctrl+Return (alacritty), Super+Shift+Return (kitty)
 - `Ctrl+Shift+Return` (mpv playlists) and `Super+Shift+O` (CopyQ)
 - the cursor theme (`Bibata-Modern-Ice`)
-- the polkit agent path `/usr/libexec/polkit-mate-authentication-agent-1` (Fedora's location)
 
 ## Keeping your changes (the repo is the live config)
 

@@ -278,7 +278,8 @@ layout {
 // GNOME-top-bar look; ~/.config/waybar is an old ML4W theme, so niri keeps its own
 spawn-sh-at-startup "waybar -c ~/.config/niri/waybar/config.jsonc -s ~/.config/niri/waybar/style.css"
 // GNOME Shell is the polkit agent under GNOME; niri needs its own or pkexec prompts never show
-spawn-at-startup "/usr/libexec/polkit-mate-authentication-agent-1"
+// Fedora/Debian/openSUSE install it in /usr/libexec, Arch in /usr/lib/mate-polkit
+spawn-sh-at-startup "for a in /usr/libexec/polkit-mate-authentication-agent-1 /usr/lib/mate-polkit/polkit-mate-authentication-agent-1; do [ -x \"$a\" ] && exec \"$a\"; done"
 // GNOME-style Alt+Tab daemon; the binds below poke it over D-Bus
 spawn-sh-at-startup "~/.config/niri/switcher/niri-switcher.py"
 // quick settings + notifications/weather menus, opened from waybar

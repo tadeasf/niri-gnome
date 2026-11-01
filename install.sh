@@ -2,23 +2,45 @@
 # Symlink every file under config/ into ~/.config, so this repo stays the live copy:
 # edit your setup as usual, then `git commit` here. Existing files are moved to *.bak-<timestamp>.
 #   ./install.sh          link configs
-#   ./install.sh --deps   install Fedora packages first, then link
+#   ./install.sh --deps   install packages first (dnf, pacman, zypper or apt), then link
 set -euo pipefail
 
 repo=$(cd "$(dirname "$0")" && pwd)
 cfg=${XDG_CONFIG_HOME:-$HOME/.config}
 stamp=$(date +%Y%m%d-%H%M%S)
 
-deps=(
-  niri waybar rofi mako swaybg swaylock mate-polkit        # session pieces
-  python3-gobject gtk4-layer-shell glib2                           # Alt+Tab switcher
-  gstreamer1-plugins-base pipewire-gstreamer                       # switcher window previews
-  mozilla-fira-sans-fonts cascadia-code-nf-fonts                   # fonts (UI + bar icons)
-  nm-connection-editor pavucontrol wireplumber playerctl brightnessctl
-)
-
+# Same set per distro, in this order: session pieces, Alt+Tab switcher + menus (PyGObject, gtk4-layer-shell,
+# gdbus), switcher window previews (gstreamer + pipewire), fonts (UI + Nerd Font bar icons), desktop tools.
 if [[ ${1:-} == --deps ]]; then
-  sudo dnf install -y "${deps[@]}"
+  if command -v dnf >/dev/null; then
+    sudo dnf install -y niri waybar rofi mako swaybg swaylock mate-polkit \
+      python3-gobject gtk4-layer-shell glib2 \
+      gstreamer1-plugins-base pipewire-gstreamer \
+      mozilla-fira-sans-fonts cascadia-code-nf-fonts \
+      nm-connection-editor pavucontrol wireplumber playerctl brightnessctl
+  elif command -v pacman >/dev/null; then
+    sudo pacman -S --needed --noconfirm niri waybar rofi mako swaybg swaylock mate-polkit \
+      python-gobject gtk4-layer-shell glib2 \
+      gst-plugins-base gst-plugin-pipewire \
+      ttf-fira-sans ttf-cascadia-code-nerd \
+      nm-connection-editor pavucontrol wireplumber playerctl brightnessctl
+  elif command -v zypper >/dev/null; then
+    sudo zypper install -y niri waybar rofi mako swaybg swaylock mate-polkit \
+      python3-gobject typelib-1_0-Gtk-4_0 typelib-1_0-Gtk4LayerShell-1_0 glib2-tools \
+      gstreamer-plugins-base gstreamer-plugin-pipewire \
+      mozilla-fira-fonts \
+      NetworkManager-connection-editor pavucontrol wireplumber playerctl brightnessctl
+    echo "NOTE: openSUSE has no Cascadia Nerd Font package; install any Nerd Font for the bar icons."
+  elif command -v apt-get >/dev/null; then
+    sudo apt-get install -y waybar rofi mako-notifier swaybg swaylock mate-polkit \
+      python3-gi gir1.2-gtk-4.0 gir1.2-gtk4layershell-1.0 libglib2.0-bin \
+      gstreamer1.0-plugins-base gstreamer1.0-pipewire \
+      fonts-cascadia-code \
+      network-manager-applet pavucontrol wireplumber playerctl brightnessctl
+    echo "NOTE: Debian/Ubuntu don't package niri, Fira Sans or a Nerd Font; install those yourself."
+  else
+    echo "Unknown package manager: install the packages from the dnf line above under your distro's names." >&2
+  fi
 fi
 
 cd "$repo/config"
