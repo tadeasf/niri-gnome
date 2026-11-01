@@ -1,0 +1,38 @@
+/* Black/white, GNOME Shell panel font (Fira Sans Semi-Bold 11) */
+* {
+    font-family: "Fira Sans", "CaskaydiaCove Nerd Font", "Cascadia Code NF", "Symbols Nerd Font";
+    font-weight: 600;
+    font-size: 11pt;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+window#waybar { background: #000000; color: #ffffff; }
+tooltip { background: #1e1e1e; border-radius: 10px; }
+tooltip label { color: #ffffff; }
+
+#workspaces { margin-left: 10px; }
+#workspaces button label { font-size: 0; }
+#workspaces button {
+    padding: 0;
+    margin: 12px 3px;
+    min-width: 7px;
+    min-height: 7px;
+    border-radius: 99px;
+    background: #6e6e6e;
+    transition: min-width 150ms ease;
+}
+#workspaces button:hover { background: #a0a0a0; }
+#workspaces button.active { min-width: 32px; background: #ffffff; }
+
+#custom-clock, #tray, #network, #pulseaudio, #custom-power {
+    padding: 0 9px;
+    margin: 4px 1px;
+    border-radius: 99px;
+    color: #ffffff;
+}
+#network, #pulseaudio, #custom-power { font-size: 12pt; }
+#custom-power { margin-right: 8px; }
+#custom-clock:hover, #network:hover, #pulseaudio:hover, #custom-power:hover { background: #2a2a2a; }
