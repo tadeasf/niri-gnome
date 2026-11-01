@@ -10,7 +10,7 @@ cfg=${XDG_CONFIG_HOME:-$HOME/.config}
 stamp=$(date +%Y%m%d-%H%M%S)
 
 deps=(
-  niri waybar rofi fuzzel mako swaybg swaylock mate-polkit        # session pieces
+  niri waybar rofi mako swaybg swaylock mate-polkit        # session pieces
   python3-gobject gtk4-layer-shell glib2                           # Alt+Tab switcher
   gstreamer1-plugins-base pipewire-gstreamer                       # switcher window previews
   mozilla-fira-sans-fonts cascadia-code-nf-fonts                   # fonts (UI + bar icons)
@@ -36,7 +36,7 @@ while IFS= read -r -d '' f; do
   fi
   ln -s "$src" "$dst"
   echo "linked     $dst"
-done < <(find . -type f -print0)
+done < <(find . -type f -not -path "*/__pycache__/*" -print0)
 
 if command -v niri >/dev/null; then
   niri validate -c "$cfg/niri/config.kdl" >/dev/null 2>&1 && echo "niri config is valid" \

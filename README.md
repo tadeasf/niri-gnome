@@ -2,7 +2,8 @@
 
 A [niri](https://github.com/YaLTeR/niri) desktop that feels like a clean GNOME setup: black and white,
 no accent colours, Fira Sans everywhere, a GNOME-style top bar, an ArcMenu-style launcher, GNOME-style
-notifications and a **GNOME-style Alt+Tab with app icons, grouped windows and live window previews**.
+notifications, a **GNOME-style Alt+Tab with app icons, grouped windows and live window previews**, and
+GNOME-style quick settings and notification/weather menus in the top bar.
 
 It runs as its own login session next to GNOME and never touches GNOME's settings, so you can switch
 between the two at the login screen.
@@ -13,7 +14,11 @@ between the two at the login screen.
 |---|---|
 | ![App switcher](screenshots/switcher.png) | ![Window previews](screenshots/switcher-previews.png) |
 
-| Launcher (Super+D) | Notifications |
+| Quick settings (click the status icons) | Notifications + weather (click the clock) |
+|---|---|
+| ![Quick settings](screenshots/quick-settings.png) | ![Notifications and weather](screenshots/notifications-weather.png) |
+
+| Launcher (Super+D) | Notification banner |
 |---|---|
 | ![Launcher](screenshots/launcher.png) | ![Notification](screenshots/notification.png) |
 
@@ -27,8 +32,8 @@ between the two at the login screen.
 | niri-switcher | `config/niri/switcher/niri-switcher.py` | GNOME-style Alt+Tab with window previews |
 | waybar | `config/niri/waybar/config.jsonc`, `style.css` | the GNOME-style top bar |
 | rofi | `config/niri/rofi/arcmenu.rasi` | app launcher that looks like ArcMenu's "Runner" layout |
-| mako | `config/mako/config` | notifications styled like GNOME banners |
-| fuzzel | `config/fuzzel/fuzzel.ini` | the small menu behind the bar's power button |
+| niri-panels | `config/niri/panels/niri-panels.py` | quick settings menu and notifications/weather menu |
+| mako | `config/mako/config` | notification banners styled like GNOME's |
 | picom override | `config/autostart/picom.desktop` | stops an X11 compositor from autostarting inside niri |
 
 Everything in `config/` mirrors `~/.config/`. `install.sh` symlinks each file into place.
@@ -101,7 +106,35 @@ desktop) isn't touched.
   rejects `%-d`/`%-I` and renders nothing.
 - The workspace dots are buttons with their label hidden (`font-size: 0`). Otherwise the label's font height
   stretches the bar.
-- The power button opens a fuzzel menu: Lock, Log out, Suspend, Reboot, Power off.
+- Clicking the clock opens the notifications/weather menu. Clicking the network, volume or power icon opens
+  quick settings (see below). Right-click the volume icon to mute, scroll on it to change the volume.
+
+### Quick settings and notifications menus (niri-panels)
+
+The same kind of background daemon as the switcher, holding two GNOME-style menus that waybar toggles over
+D-Bus (`... org.gtk.Actions.Activate quick` or `calendar`). Each one is a transparent full-screen layer
+under the bar with the menu in it, so clicking anywhere outside it (or pressing Escape) closes it, just
+like GNOME.
+
+**Quick settings** (inspired by GNOME's menu and DankMaterialShell's control center):
+
+- your avatar (`~/.face` or the GNOME account picture) and name, with uptime
+- screenshot, Settings (`gnome-control-center`), lock (`swaylock`) and a power button that unfolds
+  Suspend, Restart, Power Off and Log Out
+- a volume slider (`wpctl`), mute on the speaker icon, `pavucontrol` behind the arrow; a brightness slider
+  appears on laptops (`brightnessctl`)
+- toggles: Wi-Fi (`nmcli radio`) or Wired (opens the connection editor), Bluetooth (`bluetoothctl`),
+  Do Not Disturb (mako's `do-not-disturb` mode) and Power Mode if `power-profiles-daemon` is installed
+
+**Notifications and weather:**
+
+- every notification mako still shows or has in its history (`makoctl list`/`history`, kept for the last 50),
+  newest first, each with a close button, plus "Clear" and a Do Not Disturb switch at the bottom.
+  mako can't delete history, so cleared ones are remembered in `~/.local/state/niri-panels.json`.
+- weather from [wttr.in](https://wttr.in): now and the next three days, refreshed every 15 minutes.
+  It finds your location from your IP. To pin a city, write it into
+  `~/.config/niri/panels/weather-location` (for example `Prague`).
+- the date and a calendar.
 
 ### rofi launcher
 
@@ -117,7 +150,8 @@ descriptions and keywords, so "terminal" or "games" work. Notes:
 ### mako
 
 Dark grey rounded banners at the top centre with Fira Sans, matching GNOME's. mako runs only in niri
-(GNOME has its own notifications).
+(GNOME has its own notifications). It keeps 50 notifications of history for the notifications menu and has a
+`do-not-disturb` mode that hides banners.
 
 ## Install
 
@@ -136,9 +170,9 @@ Without `--deps`, it only links the configs. Any file it replaces is kept next t
 You'll also want:
 
 - **Fonts:** Fira Sans (`mozilla-fira-sans-fonts`) for the UI, and any Nerd Font for the bar icons. The
-  waybar/fuzzel configs try "CaskaydiaCove Nerd Font", then "Cascadia Code NF" (`cascadia-code-nf-fonts`),
+  waybar config tries "CaskaydiaCove Nerd Font", then "Cascadia Code NF" (`cascadia-code-nf-fonts`),
   then "Symbols Nerd Font".
-- **The switcher needs the system Python**: the script runs `/usr/bin/python3` because it needs PyGObject
+- **The switcher and the menus need the system Python**: the scripts run `/usr/bin/python3` because it needs PyGObject
   (`python3-gobject`). A Python from pyenv/mise/uv won't have it.
 
 ### Things to change for your machine
@@ -162,7 +196,8 @@ this repo, so whatever you change (in either place) is already a change in git.
   `niri validate -c ~/.config/niri/config.kdl`. waybar and mako need a restart:
   `pkill -x waybar && niri msg action spawn-sh -- "waybar -c ~/.config/niri/waybar/config.jsonc -s ~/.config/niri/waybar/style.css"`,
   and `makoctl reload`.
-  For the switcher: `pkill -f niri-switcher.py; niri msg action spawn-sh -- "~/.config/niri/switcher/niri-switcher.py"`.
+  For the switcher or the menus: `pkill -f niri-switcher.py; niri msg action spawn-sh -- "~/.config/niri/switcher/niri-switcher.py"`
+  (same with `niri-panels.py` under `~/.config/niri/panels/`).
 - **Add a new file:** put it under `config/` at the same path it has under `~/.config/`, then run `./install.sh`.
 - **Undo:** `git checkout -- <file>` or `git revert`, and niri reloads it straight away.
 - **New machine:** clone, `./install.sh --deps`, log in to niri.

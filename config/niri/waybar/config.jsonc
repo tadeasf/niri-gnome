@@ -13,7 +13,8 @@
     "custom/clock": {
         "exec": "date '+%a %b %-d  %-I:%M %p'",
         "interval": 5,
-        "tooltip": false
+        "tooltip": false,
+        "on-click": "gdbus call --session --dest io.github.tadeasf.NiriPanels --object-path /io/github/tadeasf/NiriPanels --method org.gtk.Actions.Activate calendar '[]' '{}'"
     },
     "tray": { "icon-size": 16, "spacing": 10 },
     "network": {
@@ -21,19 +22,19 @@
         "format-ethernet": "󰈀",
         "format-disconnected": "󰤭",
         "tooltip-format": "{ifname}  {ipaddr}",
-        "on-click": "nm-connection-editor"
+        "on-click": "gdbus call --session --dest io.github.tadeasf.NiriPanels --object-path /io/github/tadeasf/NiriPanels --method org.gtk.Actions.Activate quick '[]' '{}'"
     },
     "pulseaudio": {
         "format": "{icon}",
         "format-muted": "󰝟",
         "format-icons": { "default": ["󰕿", "󰖀", "󰕾"] },
         "tooltip-format": "{volume}%",
-        "on-click": "pavucontrol",
+        "on-click": "gdbus call --session --dest io.github.tadeasf.NiriPanels --object-path /io/github/tadeasf/NiriPanels --method org.gtk.Actions.Activate quick '[]' '{}'",
         "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
     },
     "custom/power": {
         "format": "⏻",
         "tooltip": false,
-        "on-click": "printf 'Lock\\nLog out\\nSuspend\\nReboot\\nPower off\\n' | fuzzel --dmenu | { read c; case \"$c\" in Lock) swaylock -f;; 'Log out') niri msg action quit -s;; Suspend) systemctl suspend;; Reboot) systemctl reboot;; 'Power off') systemctl poweroff;; esac; }"
+        "on-click": "gdbus call --session --dest io.github.tadeasf.NiriPanels --object-path /io/github/tadeasf/NiriPanels --method org.gtk.Actions.Activate quick '[]' '{}'"
     }
 }
