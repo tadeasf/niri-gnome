@@ -4,7 +4,7 @@
     "position": "top",
     "height": 32,
     "spacing": 0,
-    "modules-left": ["niri/workspaces"],
+    "modules-left": ["niri/workspaces", "mpris"],
     "modules-center": ["custom/clock"],
     "modules-right": ["tray", "niri/language", "custom/stats", "custom/power"],
 
@@ -21,6 +21,18 @@
     "niri/language": {
         "format": "{short}",
         "on-click": "niri msg action switch-layout next"
+    },
+    // now playing (YouTube in the browser, music apps): follows the active player via playerctld,
+    // left side so the clock stays centred; hidden when nothing is playing or paused
+    "mpris": {
+        "format": "{status_icon}  {dynamic}",
+        "dynamic-order": ["title", "artist"],
+        "dynamic-separator": "  ·  ",
+        "title-len": 45,
+        "artist-len": 20,
+        "dynamic-len": 60,
+        "status-icons": { "playing": "\uf04b", "paused": "\uf04c", "stopped": "\uf04d" },
+        "tooltip-format": "{player}: {title} - {artist}"
     },
     // network name + speed, CPU, RAM, GPU; one long-running script, refreshed every 2 s
     "custom/stats": {

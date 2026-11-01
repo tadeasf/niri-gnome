@@ -39,10 +39,13 @@ tooltip label { color: #ffffff; }
 #custom-power { margin-right: 8px; }
 #custom-clock:hover, #custom-stats:hover, #custom-power:hover { background: #2a2a2a; }
 
-#language {
+#language, #mpris {
     padding: 0 9px;
     margin: 4px 1px;
     border-radius: 99px;
     color: #ffffff;
 }
-#language:hover { background: #2a2a2a; }
+#language:hover, #mpris:hover { background: #2a2a2a; }
+#mpris { margin-left: 8px; }
+/* paused: dimmed like the stats labels */
+#mpris.paused, #mpris.stopped { color: #8a8a8a; }
