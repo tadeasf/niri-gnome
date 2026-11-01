@@ -36,6 +36,7 @@ between the two at the login screen.
 | rofi | `config/niri/rofi/arcmenu.rasi` | app launcher that looks like ArcMenu's "Runner" layout |
 | niri-panels | `config/niri/panels/niri-panels.py` | quick settings menu and notifications/weather menu |
 | mako | `config/mako/config` | notification banners styled like GNOME's |
+| session units | `config/systemd/user/niri-*.service` | start the bar, switcher, menus and wallpaper with niri (never in GNOME) and restart them if they crash |
 | autostart overrides | `config/autostart/picom.desktop`, `nm-applet.desktop` | keep picom and the redundant nm-applet tray icon out of niri (GNOME unaffected) |
 
 Everything in `config/` mirrors `~/.config/`. `install.sh` symlinks each file into place.
@@ -200,11 +201,9 @@ this repo, so whatever you change (in either place) is already a change in git.
 
 - **Save a change:** edit as usual, then `git add -A && git commit -m "..." && git push` in the repo.
 - **Apply a change:** niri reloads `config.kdl` the moment you save it. Check it with
-  `niri validate -c ~/.config/niri/config.kdl`. waybar and mako need a restart:
-  `pkill -x waybar && niri msg action spawn-sh -- "waybar -c ~/.config/niri/waybar/config.jsonc -s ~/.config/niri/waybar/style.css"`,
-  and `makoctl reload`.
-  For the switcher or the menus: `pkill -f niri-switcher.py; niri msg action spawn-sh -- "~/.config/niri/switcher/niri-switcher.py"`
-  (same with `niri-panels.py` under `~/.config/niri/panels/`).
+  `niri validate -c ~/.config/niri/config.kdl`. mako needs `makoctl reload`. The bar, switcher, menus
+  and wallpaper are systemd user units: `systemctl --user restart niri-waybar` (or `niri-switcher`,
+  `niri-panels`, `niri-swaybg`). After adding or editing a unit, run `systemctl --user daemon-reload`.
 - **Add a new file:** put it under `config/` at the same path it has under `~/.config/`, then run `./install.sh`.
 - **Undo:** `git checkout -- <file>` or `git revert`, and niri reloads it straight away.
 - **New machine:** clone, `./install.sh --deps`, log in to niri.
@@ -212,8 +211,8 @@ this repo, so whatever you change (in either place) is already a change in git.
 ## Troubleshooting
 
 - **No password prompts:** the polkit agent isn't running. Check the path in `spawn-at-startup`.
-- **Alt+Tab does nothing:** check that the daemon is running (`pgrep -af niri-switcher`) and start it by
-  hand to see errors. `ModuleNotFoundError: gi` means it ran with the wrong Python.
+- **Alt+Tab does nothing:** check the unit (`systemctl --user status niri-switcher`) and its log
+  (`journalctl --user -u niri-switcher`). `ModuleNotFoundError: gi` means it ran with the wrong Python.
 - **Previews stay as icons:** check that `gst-inspect-1.0 pipewiresrc` and `gst-inspect-1.0 glupload` work
   (`pipewire-gstreamer`, `gstreamer1-plugins-base`).
 - **Empty clock in waybar:** you're on the stock clock module with `%-` specifiers. Keep `custom/clock`.

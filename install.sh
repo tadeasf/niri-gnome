@@ -60,6 +60,12 @@ while IFS= read -r -d '' f; do
   echo "linked     $dst"
 done < <(find . -type f -not -path "*/__pycache__/*" -print0)
 
+# bar, switcher, menus etc. are user units WantedBy=niri.service: they start with niri only, never in GNOME
+if command -v systemctl >/dev/null; then
+  systemctl --user daemon-reload
+  (cd "$repo/config/systemd/user" && systemctl --user enable -- *.service) && echo "enabled    niri session units"
+fi
+
 if command -v niri >/dev/null; then
   niri validate -c "$cfg/niri/config.kdl" >/dev/null 2>&1 && echo "niri config is valid" \
     || echo "WARNING: niri validate failed, run: niri validate -c $cfg/niri/config.kdl"

@@ -274,19 +274,11 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// This line starts waybar, a commonly used bar for Wayland compositors.
-// GNOME-top-bar look; ~/.config/waybar is an old ML4W theme, so niri keeps its own
-spawn-sh-at-startup "waybar -c ~/.config/niri/waybar/config.jsonc -s ~/.config/niri/waybar/style.css"
+// waybar, niri-switcher, niri-panels and swaybg run as systemd user units (config/systemd/user/niri-*.service)
+// so they restart if they crash; they're WantedBy=niri.service and never start in GNOME.
 // GNOME Shell is the polkit agent under GNOME; niri needs its own or pkexec prompts never show
 // Fedora/Debian/openSUSE install it in /usr/libexec, Arch in /usr/lib/mate-polkit
 spawn-sh-at-startup "for a in /usr/libexec/polkit-mate-authentication-agent-1 /usr/lib/mate-polkit/polkit-mate-authentication-agent-1; do [ -x \"$a\" ] && exec \"$a\"; done"
-// GNOME-style Alt+Tab daemon; the binds below poke it over D-Bus
-spawn-sh-at-startup "~/.config/niri/switcher/niri-switcher.py"
-// quick settings + notifications/weather menus, opened from waybar
-spawn-sh-at-startup "~/.config/niri/panels/niri-panels.py"
-// Same wallpaper as GNOME, read at startup so GNOME changes follow (zoom = fill).
-// shortcut: plain sed strips file://, a percent-encoded path (spaces etc.) would break; decode it if that ever happens.
-spawn-sh-at-startup "swaybg -m fill -i \"$(gsettings get org.gnome.desktop.background picture-uri-dark | sed -e \"s|^'file://||\" -e \"s|'$||\")\""
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"

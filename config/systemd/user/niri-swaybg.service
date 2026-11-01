@@ -1,0 +1,15 @@
+[Unit]
+Description=Wallpaper, same as GNOME's (niri session)
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+
+[Service]
+# Read at start so GNOME wallpaper changes follow (zoom = fill).
+# shortcut: plain sed strips file://, a percent-encoded path (spaces etc.) would break; decode it if that ever happens.
+ExecStart=/bin/sh -c 'exec swaybg -m fill -i "$$(gsettings get org.gnome.desktop.background picture-uri-dark | sed -e "s|^.file://||" -e "s|.$$||")"'
+Restart=on-failure
+RestartSec=1
+
+[Install]
+WantedBy=niri.service
