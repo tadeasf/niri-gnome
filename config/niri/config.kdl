@@ -419,7 +419,7 @@ binds {
     Mod+Shift+Return hotkey-overlay-title="Terminal: kitty" { spawn "kitty"; }
     Ctrl+Shift+Return hotkey-overlay-title="mpv playlists" { spawn-sh "cd ~/playlists && mpv --idle --force-window=yes"; }
     Mod+Shift+O hotkey-overlay-title="CopyQ" { spawn "copyq" "show"; }
-    Mod+Escape allow-inhibiting=false hotkey-overlay-title="Lock the Screen" { spawn "swaylock" "-f" "-c" "000000"; }
+    Mod+Escape allow-inhibiting=false hotkey-overlay-title="Lock the Screen" { spawn-sh "~/.config/niri/lock.sh"; }
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
 
     // Media keys

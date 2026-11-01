@@ -238,7 +238,7 @@ class Panels(Gtk.Application):
         head.append(round_button("emblem-system-symbolic", "Settings",
                                  lambda: self.run_and_hide("env", "XDG_CURRENT_DESKTOP=GNOME", "gnome-control-center")))
         head.append(round_button("system-lock-screen-symbolic", "Lock",
-                                 lambda: self.run_and_hide("swaylock", "-f", "-c", "000000")))
+                                 lambda: self.run_and_hide(os.path.expanduser("~/.config/niri/lock.sh"))))
         head.append(round_button("system-shutdown-symbolic", "Power Off / Log Out",
                                  lambda: power_menu.set_reveal_child(not power_menu.get_reveal_child())))
         box.append(head)

@@ -62,6 +62,10 @@ Everything in `config/` mirrors `~/.config/`. `install.sh` symlinks each file in
 - **Volume/brightness OSD:** the media keys go through `swayosd-client`, which shows a GNOME-style pill
   (`config/niri/swayosd/style.css`) and caps volume at 100%. On Fedora `swayosd` comes from the Terra repo.
 - **USB drives** mount by themselves under `/run/media/$USER` (`udiskie`), as they do in GNOME.
+- **Lock screen:** Super+Escape (and the lock button in quick settings) runs `config/niri/lock.sh`, which
+  starts `hyprlock` with its own config (`config/niri/hyprlock.conf`, so a Hyprland one is left alone):
+  a blurred, dimmed screenshot of your desktop, a big clock, your avatar (`~/.face` or the GNOME account
+  picture) and a pill password field.
 - **Polkit:** under GNOME, GNOME Shell shows password prompts. niri doesn't, so the config starts
   `mate-polkit`'s agent. Without one, `pkexec` and "enter your password" dialogs never appear.
 
@@ -134,7 +138,7 @@ like GNOME.
 **Quick settings** (inspired by GNOME's menu and DankMaterialShell's control center):
 
 - your avatar (`~/.face` or the GNOME account picture) and name, with uptime
-- screenshot, Settings (`gnome-control-center`), lock (`swaylock`) and a power button that unfolds
+- screenshot, Settings (`gnome-control-center`), lock (hyprlock, see below) and a power button that unfolds
   Suspend, Restart, Power Off and Log Out
 - a volume slider (`wpctl`), mute on the speaker icon, `pavucontrol` behind the arrow; a brightness slider
   appears on laptops (`brightnessctl`)
