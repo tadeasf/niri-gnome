@@ -496,8 +496,9 @@ binds {
     Mod+Shift+E { quit; }
 }
 
-// Show the wallpaper behind the overview too.
+// Overview (Super+A) backdrop: the blurred wallpaper from niri-backdrop.service (awww, namespace
+// "backdrop"). swaybg stays on the workspaces, so they look like cards floating over a soft blur.
 layer-rule {
-    match namespace="^wallpaper$"
+    match namespace="^awww-daemonbackdrop$"
     place-within-backdrop true
 }

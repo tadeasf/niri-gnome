@@ -17,7 +17,7 @@ if [[ ${1:-} == --deps ]]; then
       python3-gobject gtk4-layer-shell glib2 \
       gstreamer1-plugins-base pipewire-gstreamer \
       mozilla-fira-sans-fonts cascadia-code-nf-fonts \
-      nm-connection-editor pavucontrol wireplumber playerctl brightnessctl swayosd udiskie
+      nm-connection-editor pavucontrol wireplumber playerctl brightnessctl swayosd udiskie awww ImageMagick
   elif command -v pacman >/dev/null; then
     sudo pacman -S --needed --noconfirm niri waybar rofi mako swaybg swaylock mate-polkit \
       python-gobject gtk4-layer-shell glib2 \

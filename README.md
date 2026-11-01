@@ -45,10 +45,14 @@ Everything in `config/` mirrors `~/.config/`. `install.sh` symlinks each file in
 
 ### niri
 
-- **Wallpaper:** `swaybg` starts with whatever wallpaper GNOME uses, read from
+- **Wallpaper:** `swaybg` (`niri-swaybg.service`) starts with whatever wallpaper GNOME uses, read from
   `gsettings get org.gnome.desktop.background picture-uri-dark` at login. Change it in GNOME and niri
   follows on the next login. `layout { background-color "transparent" }` lets it show through on every
   workspace. On a machine without GNOME, replace that line with `swaybg -i /path/to/image`.
+- **Overview backdrop:** in the overview (Super+A) the workspaces float over a blurred, darkened copy of the
+  wallpaper. `niri-backdrop.service` runs `config/niri/backdrop.sh`, which makes the copy with ImageMagick
+  (cached in `~/.cache/niri/`, redone only when the wallpaper changes) and shows it with a second wallpaper
+  tool, `awww`, whose layer a `layer-rule` puts into the backdrop.
 - **No gaps, thin borders:** `gaps 0` gives every pixel to windows. The focused window gets a 2px white
   `border` and the others get a near-black one. A border instead of niri's `focus-ring`, because the ring
   is drawn outside the window and the neighbouring windows cover it when there are no gaps.
